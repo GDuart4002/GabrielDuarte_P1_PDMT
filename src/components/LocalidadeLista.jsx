@@ -1,20 +1,14 @@
 import React from 'react';
 
-const LocalidadeLista = () => {
-    const localidades = [
-        { id: 1, nome: 'São Paulo - SP' },
-        { id: 2, nome: 'Rio de Janeiro - RJ' },
-        { id: 3, nome: 'Belo Horizonte - MG' },
-        { id: 4, nome: 'Curitiba - PR' },
-        { id: 5, nome: 'Porto Alegre - RS' },
-    ];
-
+const LocalidadeLista = ({ localidades }) => {
     return (
         <div>
-            <h2>Localidades</h2>
+            <h2>Localidades Encontradas</h2>
             <ul>
-                {localidades.map((localidade) => (
-                    <li key={localidade.id}>{localidade.nome}</li>
+                {localidades.map((localidade, index) => (
+                    <li key={index}>
+                        {localidade.logradouro}, {localidade.bairro}, {localidade.localidade} - {localidade.uf}
+                    </li>
                 ))}
             </ul>
         </div>

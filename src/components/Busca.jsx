@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Busca = () => {
+const Busca = ({ onAddLocalidade }) => {
     const [cep, setCep] = useState('');
 
     const handleSearch = async () => {
@@ -16,6 +16,7 @@ const Busca = () => {
                 alert('CEP inválido. Tente novamente.');
             } else {
                 console.log('Dados da localidade:', response.data);
+                onAddLocalidade(response.data); // Envia os dados para o componente pai
             }
         } catch (error) {
             alert('Erro ao buscar o CEP. Verifique sua conexão ou tente novamente.');

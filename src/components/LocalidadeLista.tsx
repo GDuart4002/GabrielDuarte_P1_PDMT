@@ -1,7 +1,7 @@
-import { Localidade } from './Busca'; // Importe a interface Localidade
+import { Localidade } from './Busca';
 
 interface LocalidadeListaProps {
-  localidades: Localidade[]; // Define o tipo da propriedade
+  localidades: Localidade[];
 }
 
 function LocalidadeLista({ localidades }: LocalidadeListaProps) {

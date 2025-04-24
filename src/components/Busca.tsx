@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios from 'axios';
-import LocalidadeLista from './LocalidadeLista';
 
 export interface Localidade {
   cep: string;
@@ -13,12 +12,15 @@ export interface Localidade {
   gia: string;
   ddd: string;
   siafi: string;
-  erro?: boolean; // Adiciona a propriedade opcional "erro"
+  erro?: boolean;
 }
 
-function Busca() {
+interface BuscaProps {
+  setLocalidades: React.Dispatch<React.SetStateAction<Localidade[]>>;
+}
+
+function Busca({ setLocalidades }: BuscaProps) {
   const [cep, setCep] = useState('');
-  const [localidades, setLocalidades] = useState<Localidade[]>([]);
 
   const handleSearch = async () => {
     if (!cep) {
@@ -31,7 +33,7 @@ function Busca() {
       if (response.data.erro) {
         alert('CEP inválido. Tente novamente.');
       } else {
-        setLocalidades((prev) => [response.data, ...prev]); // Adiciona a nova localidade no topo da lista
+        setLocalidades((prev) => [response.data, ...prev]);
         console.log('Dados da localidade:', response.data);
       }
     } catch (error) {
@@ -52,7 +54,6 @@ function Busca() {
       <button className="p-button p-button-primary" onClick={handleSearch}>
         Buscar
       </button>
-      <LocalidadeLista localidades={localidades} />
     </div>
   );
 }

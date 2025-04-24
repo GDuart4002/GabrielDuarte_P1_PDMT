@@ -13,9 +13,9 @@ function LocalidadeLista({ localidades }: LocalidadeListaProps) {
       ) : (
         <ul>
           {localidades.map((localidade, index) => (
-            <li key={index}>
+            <p key={index}>
               {localidade.logradouro}, {localidade.bairro}, {localidade.localidade} - {localidade.uf}
-            </li>
+            </p>
           ))}
         </ul>
       )}

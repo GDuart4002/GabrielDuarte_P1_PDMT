@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { gerarCEPAleatorio } from '../utils/CEPAleatorio'; // Importa a função de geração de CEP aleatório
 
 export interface Localidade {
   cep: string;
@@ -42,18 +45,49 @@ function Busca({ setLocalidades }: BuscaProps) {
     }
   };
 
+  const handleRandomSearch = async () => {
+    const randomCeps = Array.from({ length: 10 }, () => gerarCEPAleatorio()); // Gera 10 CEPs aleatórios
+    const localidades: Localidade[] = [];
+
+    for (const randomCep of randomCeps) {
+      try {
+        const response = await axios.get<Localidade>(`https://viacep.com.br/ws/${randomCep}/json/`);
+        if (!response.data.erro) {
+          localidades.push(response.data); // Adiciona apenas CEPs válidos
+          console.log('Dados da localidade (aleatório):', response.data);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar o CEP aleatório:', randomCep, error);
+      }
+    }
+
+    setLocalidades((prev) => [...localidades, ...prev]); // Adiciona as localidades válidas ao estado
+  };
+
   return (
-    <div className="p-d-flex p-flex-column p-ai-center p-mt-4">
-      <input
-        type="text"
-        value={cep}
-        onChange={(e) => setCep(e.target.value)}
-        placeholder="Digite o CEP"
-        className="p-inputtext p-mb-2"
+    <div className="p-d-flex p-flex-column p-ai-center p-jc-center p-mt-4" style={{ width: '100%' }}>
+      <div className="p-inputgroup p-mb-3" style={{ maxWidth: '400px', width: '100%' }}>
+        <InputText
+          value={cep}
+          onChange={(e) => setCep(e.target.value)}
+          placeholder="Digite o CEP"
+          className="p-inputtext"
+        />
+      </div>
+      <Button
+        label="Buscar"
+        icon="pi pi-check"
+        onClick={handleSearch}
+        className="p-button p-mt-3"
+        style={{ marginTop: '1rem' }}
       />
-      <button className="p-button p-button-primary" onClick={handleSearch}>
-        Buscar
-      </button>
+      <Button
+        label="Buscar 10 CEPs Aleatórios"
+        icon="pi pi-random"
+        onClick={handleRandomSearch}
+        className="p-button p-mt-3"
+        style={{ marginTop: '1rem' }}
+      />
     </div>
   );
 }

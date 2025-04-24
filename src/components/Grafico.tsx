@@ -26,6 +26,15 @@ function Grafico({ localidades }: GraficoProps) {
           '#4BC0C0',
           '#9966FF',
           '#FF9F40',
+          '#8E44AD',
+          '#2ECC71',
+          '#E74C3C',
+          '#3498DB',
+          '#F1C40F',
+          '#1ABC9C',
+          '#9B59B6',
+          '#34495E',
+          '#D35400',
         ],
         hoverBackgroundColor: [
           '#FF6384',
@@ -34,15 +43,23 @@ function Grafico({ localidades }: GraficoProps) {
           '#4BC0C0',
           '#9966FF',
           '#FF9F40',
+          '#8E44AD',
+          '#2ECC71',
+          '#E74C3C',
+          '#3498DB',
+          '#F1C40F',
+          '#1ABC9C',
+          '#9B59B6',
+          '#34495E',
+          '#D35400',
         ],
       },
     ],
   };
 
   return (
-    <div className="p-d-flex p-jc-center p-mt-4">
-      <div style={{ width: '50%' }}>
-        <h2>Distribuição por Estado</h2>
+    <div className="p-d-flex p-jc-center" style={{ width: '100%' }}>
+      <div style={{ width: '100%', maxWidth: '300px', margin: '0 auto' }}>
         <Pie data={data} />
       </div>
     </div>

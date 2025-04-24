@@ -1,10 +1,26 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 function Busca() {
   const [cep, setCep] = useState('');
 
-  const handleSearch = () => {
-    alert(`CEP digitado: ${cep}`);
+  const handleSearch = async () => {
+    if (!cep) {
+      alert('Por favor, digite um CEP válido.');
+      return;
+    }
+
+    try {
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      if (response.data.erro) {
+        alert('CEP inválido. Tente novamente.');
+      } else {
+        console.log('Dados da localidade:', response.data);
+      }
+    } catch (error) {
+      alert('Erro ao buscar o CEP. Verifique sua conexão ou tente novamente.');
+      console.error('Erro:', error);
+    }
   };
 
   return (

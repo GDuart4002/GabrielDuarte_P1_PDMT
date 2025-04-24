@@ -1,20 +1,24 @@
-function LocalidadeLista() {
-  const localidades = [
-    { id: 1, nome: 'São Paulo', estado: 'SP' },
-    { id: 2, nome: 'Rio de Janeiro', estado: 'RJ' },
-    { id: 3, nome: 'Belo Horizonte', estado: 'MG' },
-  ];
+import { Localidade } from './Busca'; // Importe a interface Localidade
 
+interface LocalidadeListaProps {
+  localidades: Localidade[]; // Define o tipo da propriedade
+}
+
+function LocalidadeLista({ localidades }: LocalidadeListaProps) {
   return (
     <div className="p-d-flex p-flex-column p-ai-center p-mt-4">
-      <h2>Localidades</h2>
-      <ul>
-        {localidades.map((localidade) => (
-          <li key={localidade.id}>
-            {localidade.nome} - {localidade.estado}
-          </li>
-        ))}
-      </ul>
+      <h2>Localidades Encontradas</h2>
+      {localidades.length === 0 ? (
+        <p>Nenhuma localidade encontrada.</p>
+      ) : (
+        <ul>
+          {localidades.map((localidade, index) => (
+            <li key={index}>
+              {localidade.logradouro}, {localidade.bairro}, {localidade.localidade} - {localidade.uf}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

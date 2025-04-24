@@ -1,8 +1,24 @@
 import { useState } from 'react';
 import axios from 'axios';
+import LocalidadeLista from './LocalidadeLista';
+
+export interface Localidade {
+  cep: string;
+  logradouro: string;
+  complemento: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+  ibge: string;
+  gia: string;
+  ddd: string;
+  siafi: string;
+  erro?: boolean; // Adiciona a propriedade opcional "erro"
+}
 
 function Busca() {
   const [cep, setCep] = useState('');
+  const [localidades, setLocalidades] = useState<Localidade[]>([]);
 
   const handleSearch = async () => {
     if (!cep) {
@@ -11,10 +27,11 @@ function Busca() {
     }
 
     try {
-      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      const response = await axios.get<Localidade>(`https://viacep.com.br/ws/${cep}/json/`);
       if (response.data.erro) {
         alert('CEP inválido. Tente novamente.');
       } else {
+        setLocalidades((prev) => [response.data, ...prev]); // Adiciona a nova localidade no topo da lista
         console.log('Dados da localidade:', response.data);
       }
     } catch (error) {
@@ -35,6 +52,7 @@ function Busca() {
       <button className="p-button p-button-primary" onClick={handleSearch}>
         Buscar
       </button>
+      <LocalidadeLista localidades={localidades} />
     </div>
   );
 }
